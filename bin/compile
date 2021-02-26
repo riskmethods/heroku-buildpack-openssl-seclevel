@@ -1,4 +1,7 @@
 #!/bin/bash
+set -x
 
+BUILDPACK_DIR=$(cd "$(dirname "$0")"; cd ..; pwd)
 CNF="$BUILDPACK_DIR/etc/openssl.cnf"
+
 install -Dm644 "$CNF" /etc/ssl/openssl.cnf
