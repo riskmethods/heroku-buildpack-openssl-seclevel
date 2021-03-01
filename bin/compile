@@ -1,7 +1,13 @@
 #!/bin/bash
 set -x
 
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
 BUILDPACK_DIR=$(cd "$(dirname "$0")"; cd ..; pwd)
-CNF="$BUILDPACK_DIR/etc/openssl.cnf"
 
-install -Dm644 "$CNF" /etc/ssl/openssl.cnf
+mkdir -p "$BUILD_DIR/.heroku/openssl"
+install -Dm644 "$BUILDPACK_DIR/etc/openssl.cnf" "$BUILD_DIR/.heroku/openssl/openssl.cnf"
+
+mkdir -p "$BUILD_DIR/.profile.d"
+echo 'export OPENSSL_CONF=$HOME/.heroku/openssl/openssl.cnf' > "$BUILD_DIR/.profile.d/openssl.sh"
